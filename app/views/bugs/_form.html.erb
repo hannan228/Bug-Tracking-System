@@ -1,0 +1,55 @@
+<% if @bug.errors.any? %> 
+  <h2>The following errors prevent the project from being saved</h2> 
+  <ul> 
+    <% @bug.errors.full_messages.each do |msg| %> 
+      <li><%= msg %></li> 
+    <% end %> 
+  </ul>
+<% end %>
+
+<%= form_with(model: @bug, local: true)  do |f| %>
+
+  <p>
+  	<%= f.label :title %><br/>
+  	<%= f.text_field :title %>
+  </p>
+
+  <p>
+  	<%= f.label :description %><br/>
+  	<%= f.text_area :description %>
+  </p>
+
+  <p>
+  	<%= f.label :image %><br/>
+  	<%= f.file_field :image %>
+  </p>
+
+  <p>
+  	<%= f.label :bugtype %><br/>
+  	<%= f.text_area :bug_type %>
+  </p>
+  
+  <p>
+  	<%= f.label :bug_status %><br/>
+  	<%= f.text_area :bug_status %>
+  </p>
+
+  <p>
+  	<%= f.label :feature_status %><br/>
+  	<%= f.text_area :feature_status %>
+  </p>
+
+   <p>
+  	<%= f.label :deadline %><br/>
+  	<%= f.text_area :deadline %>
+  </p>
+
+
+
+
+
+  <p>
+  <%= f.submit %>
+  </p>
+  
+<% end %>
