@@ -1,22 +1,46 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-
-
-<% if current_user%>
-    <p> Hello <%= current_user.email %>!</p>
-    <p>you are a [<%= current_user.user_type %>] </p>
-        There are <%= User.count %> user in the system.
-    <p>
-        you have successfully authenticated with your Decise account
-        you are now ready to interact with application
-    </p>
-    
-    <%= link_to "Create Project", "/projects" %>
-    <br>
-    <br>
-    <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete %>
-<% else %>
-    <p>you are not signed in.</p>
-    <%= link_to "Sign Up!", new_user_registration_path %>
-    <%= link_to "Login!", new_user_session_path %>
-<% end %>
+<body>
+	<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="assets/1.jpg" class="d-block w-100" alt="laptop">
+				<div class="carousel-caption d-none d-md-block">
+                    <% if current_user%>
+                        <h2> Hello <%= current_user.name %>!</h2>
+                        <p>you are a <strong><%= current_user.user_type %></strong> in Bugs Tracking System </p>
+                    <% else %>
+                      <h1> Hello you are not signed in!</h1>  
+                    <% end %>
+					<% if current_user%>
+						<% if current_user.manager? %>
+						<div class="d-grid gap-2 d-md-block">
+						<button class="btn btn-primary" type="button"><%= link_to "Create Project", "/projects", class: "custom-link" %></button>
+						</div>
+						<% elsif current_user.qa? %>
+						<div class="d-grid gap-2 d-md-block">
+						<button class="btn btn-primary" type="button"><%= link_to "Create Bug", "/bugs/new", class: "custom-link" %></button>
+						</div>
+						<% elsif current_user.developer? %>
+						<div class="d-grid gap-2 d-md-block">
+						<button class="btn btn-primary" type="button"><%= link_to "Resolve Bug", "/bugs", class: "custom-link" %></button>
+						</div>
+						<% else %>
+						<div class="d-grid gap-2 d-md-block">
+						<button class="btn btn-primary" type="button"><%= link_to "Guest", "/" %></button>
+						</div>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container" >
+	<% if current_user %>
+	  <% if current_user.manager? %>
+		<%= render 'projects/projectlist' %>  
+	  <% elsif current_user.developer? || current_user.qa? %>
+        <%= render 'bugs/bugs_list' %>
+	  <% end %>
+	<% end %>  
+	</div>
+</body>

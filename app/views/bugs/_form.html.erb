@@ -1,55 +1,107 @@
-<% if @bug.errors.any? %> 
-  <h2>The following errors prevent the project from being saved</h2> 
-  <ul> 
-    <% @bug.errors.full_messages.each do |msg| %> 
-      <li><%= msg %></li> 
-    <% end %> 
-  </ul>
-<% end %>
+<div class="col-md-12 form-center my-4">
+  <div class="container my-6">
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h2 class="text-center">welcome to bug section</h2>
 
-<%= form_with(model: @bug, local: true)  do |f| %>
+            <% if @bug.errors.any? %> 
+              <div class="alert-warning">
+                <h2>The following errors prevent the bug from being saved</h2> 
+              </div>
+              <div class="alert-danger">
+                <ul> 
+                  <% @bug.errors.full_messages.each do |msg| %> 
+                    <li><%= msg %></li> 
+                  <% end %> 
+                </ul>
+              </div>
+            <% end %>
 
-  <p>
-  	<%= f.label :title %><br/>
-  	<%= f.text_field :title %>
-  </p>
+            <div class=""> 
+              <%= form_with(model: @bug, local: true)  do |f| %>
 
-  <p>
-  	<%= f.label :description %><br/>
-  	<%= f.text_area :description %>
-  </p>
+                <p>
+                  <%= f.label :title, class: "form-label" %>
+                  <label for="project_id" class="form-label">Email</label>
+                  <%= f.text_field :title, class: "form-control" %>
+                </p>
 
-  <p>
-  	<%= f.label :image %><br/>
-  	<%= f.file_field :image %>
-  </p>
+                <p>
+                  <%= f.label :description, class: "form-label" %>
+                  <%= f.text_area :description, class: "form-control" %>
+                </p>
 
-  <p>
-  	<%= f.label :bugtype %><br/>
-  	<%= f.text_area :bug_type %>
-  </p>
-  
-  <p>
-  	<%= f.label :bug_status %><br/>
-  	<%= f.text_area :bug_status %>
-  </p>
+                <p>
+                  <%= f.label :image, class: "form-label" %>
+                  <%= f.file_field :image, class: "form-control" %>
+                </p>
 
-  <p>
-  	<%= f.label :feature_status %><br/>
-  	<%= f.text_area :feature_status %>
-  </p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>
+                      <%= f.label :project_id, class: "form-label" %>
+                      <%= f.select :project_id, Project.all.collect {|key| [ key.title, key.id ]}, class: "form-control" %>
+                    </p>       
+                  </div>     
+                  
+                  <div class="col-md-6">
+                    <p>
+                      <%= f.label :deadline, class: "form-label" %>
+                      <%= f.datetime_field :deadline, class: "form-label" %>                    
+                    </p>
+                  </div>
+                </div>
 
-   <p>
-  	<%= f.label :deadline %><br/>
-  	<%= f.text_area :deadline %>
-  </p>
+                 <div>
+                  <%= f.label :bug_type %><br />
+                   <%= f.label :bug_type, "Bug", :value => "bug"%>
+                  <%= f.radio_button :bug_type, "bug", onclick:" checkButton()", class:"form-check-input", id:"bug", :checked => true%>
+                
+                  <%= f.label :bug_type, "Feature", :value => "feature"  %>
+                  <%= f.radio_button :bug_type, "feature", onclick:" checkButton()", class:"form-check-input", id:"feature" %>
+                 </div>
+                <%# <p id="para"></p> %>
+                <div id="panel1">
+                    <p class = "my-2">
+                        <%= f.label :feature_status%><br/>
+                        <%= f.select(:feature_status, Bug.feature_statuses.keys.map {|key| [key.humanize, key]}, {}, {class:"form-select"}) %>
+                    </p>
+                </div>
+                <div id="panel2">
+                    <p class = "my-2">
+                        <%= f.label :bug_status%><br/>
+                        <%= f.select(:bug_status, Bug.bug_statuses.keys.map {|key| [key.humanize, key]}, {}, {class:"form-select"}) %>
+                    </p>
+                </div>
+
+                <div class="actions d-grid gap-2 my-3 col-6 mx-auto">
+                  <%= f.submit data: {turbo: false}, class: "btn btn-primary" %>
+                </div>  
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
 
-
-
-
-  <p>
-  <%= f.submit %>
-  </p>
-  
-<% end %>
+<script>
+    var box1= document.querySelector('#panel1')
+    var box2= document.querySelector("#panel2")
+    function checkButton(){
+      if(document.getElementById('feature').checked) {
+                  // document.getElementById("para").innerHTML = document.getElementById("feature").value + " radio button is checked";
+                  box1.style.display = "block"
+                  box2.style.display = "none"
+              }
+      else {
+          // document.getElementById("para").innerHTML = document.getElementById("bug").value + " radio button is checked";
+          box1.style.display = "none"
+          box2.style.display = "block"  
+      }
+    }
+</script>

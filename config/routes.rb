@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   #devise_for :users, controllers: { sessions: 'users/sessions'}
   get "/projects", to: "projects#index"
+  get "/bugs", to: "bugs#index"
+
 
 end

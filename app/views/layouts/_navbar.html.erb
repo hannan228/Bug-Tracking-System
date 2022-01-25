@@ -1,0 +1,90 @@
+<style>
+    .nav_danger_btn{
+        color: white;
+        text-decoration: none
+    }
+    .nav_danger_btn:hover {
+      color: white;
+    }
+</style>
+	<title>Home Page </title>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">Bug Tracking System</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+			      <% if current_page?('/') %>
+				  <%# if home page is active then %>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/">Home</a>
+					</li> 
+				  <% else %>
+				  <%# if home page is not active then %>
+					<li class="nav-item">
+						<a class="nav-link"  aria-current="page" href="/">Home</a>
+					</li> 
+				  <% end %>
+
+				  <% if current_page?('/projects') %>
+				  <%# if prroject page is active then %>
+					<li class="nav-item">
+						<a class="nav-link active" href="/projects">Projects</a>
+					</li>
+					<div class="d-grid ms-2 gap-2 d-md-block">
+					  <% if current_user%>
+						<% if can? :create, Project %>
+						  <%= link_to "Create new projects", new_project_path, class: "nav_danger_btn btn btn-primary" %>
+					  	<% end %>
+					  <% end %>
+					</div>
+				  <% else %>
+				  <%# if prroject page is not active then %>
+					<li class="nav-item">
+						<a class="nav-link"  aria-current="page" href="/projects">Projects</a>
+					</li> 
+				  <% end %>
+
+				  <% if current_page?('/bugs') %>
+				  <%# if bug page is active then %>
+					<li class="nav-item">
+						<a class="nav-link active" href="/bugs">Bugs</a>
+					</li>
+					<div class="d-grid ms-2 gap-2 d-md-block">
+					  <% if current_user%>
+						<% if can? :create, Bug %>
+						  <%= link_to "Create new bug", new_bug_path, class: "nav_danger_btn btn btn-primary" %>
+					  	<% end %>
+					  <% end %>
+					</div>
+				  <% else %>
+				  <%# if bug page is not active then %>
+					<li class="nav-item">
+						<a class="nav-link"  href="/bugs">Bugs</a>
+					</li> 
+				  <% end %>
+				</ul>
+				<form class="d-flex">
+					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-light" type="submit">Search</button>
+				</form>
+				<div class="d-grid ms-2 gap-2 d-md-block">
+                    <% if current_user%>
+                      <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete,  class: "nav_danger_btn btn btn-danger"%>
+                    <% else %>
+                	  <%= link_to "Sign Up", new_user_registration_path,  class: "nav_danger_btn btn btn-danger"  %>
+                      <%= link_to "Login", new_user_session_path, class: "nav_danger_btn btn btn-danger" %>
+                    <% end %>
+				</div>
+			</div>
+		</div>
+	</nav>
+<body>
+</html>

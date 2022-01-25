@@ -1,5 +1,10 @@
 class BugsController < ApplicationController
 
+    
+    rescue_from CanCan::AccessDenied do |exception|
+        redirect_to bugs_url, :alert => exception.message
+    end
+    
     before_action :set_bug, only: [:show, :edit, :destroy, :update]
 
     def show
@@ -12,10 +17,17 @@ class BugsController < ApplicationController
 
     def new
         @bug = Bug.new
+        authorize! :create, @bug
+    end
+    def edit
+        @bug = Bug.find(params[:id])
+        authorize! :update, @bug
     end
     
     def create
-        @bug = Bug.new(set_params)
+
+        @user = current_user
+        @bug = @user.bugs.build(set_params)
         if @bug.save
             flash[:notice] = "Bug was created successfully."
             redirect_to bug_path(@bug)
@@ -33,12 +45,18 @@ class BugsController < ApplicationController
         end
     end
 
+    def destroy
+        @bug.destroy
+        params[:id] = nil
+        redirect_to bugs_path
+    end
+
     def set_bug
         @bug = Bug.find(params[:id])
     end
 
     def set_params
-        params.require(:bug).permit(:title, :description, :screenshot, :bug_type, :bug_status, :feature_status, :deadline, :image)
+        params.require(:bug).permit(:title, :description, :screenshot, :bug_type, :bug_status, :feature_status, :deadline, :image,:project_id)
     end
 
 end

@@ -1,66 +1,10 @@
-<h1>welcome to bug section</h1>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-    table, th, td {
-        border: 1px solid black;
-    }
-    table {
-        width: 50%;
-        border-collapse: collapse;
-        margin-left: 80px;
-        margin-top: 20px
-    }
-
-    p { 
-        margin-left: 80px;   
-    }
-    
-    </style>
-
-        <title></title>
-</head>
 <body>
-
-<table>
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Description</th>
-            <th>Type</th>
-            <th>Bug Status</th>
-            <th>Feature Status</th>
-            <th>deadline</th>
-			<th colspan="3">Actions</th>
-		</tr>
-	</thead>
-
-
-<tbody>
-	<% @bug.each do |article| %>
-	<tr>
-		<td><%= article.title[0,30] %>....</td>
-		<td><%= article.description[0,30] %>....</td>
-        <td><%= article.bug_type %></td>
-		<td><%= article.bug_status %></td>
-        <td><%= article.feature_status %></td>
-        <td><%= article.deadline %></td>
-		
-        <td><%= link_to 'View', bug_path(article) %></td>
-		<td><%= link_to 'Edit', edit_bug_path(article) %></td>
-		<td><%= link_to 'Delete', bug_path(article), data: { "turbo-method": :delete } %></td>
-	</tr>
-	<% end %>
-</tbody>
-</table>
-
-<p>
-	<%= link_to 'Create new bug', new_bug_path %>
-</p>
-
+<div class="container my-4">
+  <%= render 'bugs_list' %>
+  <p>
+    <% if can? :create, Bug %>
+      <button class="btn btn-primary" type="button"><%= link_to "Create new bug", new_bug_path, class: "nav_danger_btn" %></button> 
+    <% end %>
+  </p>
+</div>
 </body>
-</html>
-
-

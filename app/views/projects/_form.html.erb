@@ -1,26 +1,74 @@
-<% if @project.errors.any? %> 
-  <h2>The following errors prevent the project from being saved</h2> 
-  <ul> 
-    <% @project.errors.full_messages.each do |msg| %> 
-      <li><%= msg %></li> 
-    <% end %> 
-  </ul>
-<% end %>
+<!DOCTYPE html>
+<html>
+  <head>
+      <title></title>
+   </head>
+<body>
+  <div class="col-md-12 form-center">
+    <div class="container my-6">
+      <div class="row mb-1">
+        <div class="col-md-12">
+          <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <h2 class="text-center">welcome to project section</h2>
 
-<%= form_with(model: @project, local: true)  do |f| %>
+              <% if @project.errors.any? %> 
+                <div class="alert-warning">
+                  <h2>The following errors prevent the project from being saved</h2> 
+                </div>
+                <div class="alert-danger">
+                  <ul> 
+                    <% @project.errors.full_messages.each do |msg| %> 
+                      <li><%= msg %></li> 
+                    <% end %> 
+                  </ul>
+                </div>
+              <% end %>
 
-  <p>
-  	<%= f.label :title %><br/>
-  	<%= f.text_field :title %>
-  </p>
+              <div class="container"> 
+                <%= form_with(model: @project, local: true)  do |f| %>
 
-  <p>
-  	<%= f.label :description %><br/>
-  	<%= f.text_area :description %>
-  </p>
+                  <p>
+                    <%= f.label :title, class: "form-label" %>
+                    <%= f.text_field :title, class: "form-control" %>
+                  </p>
 
-  <p>
-  <%= f.submit %>
-  </p>
-  
-<% end %>
+                  <p>
+                    <%= f.label :description, class: "form-label" %>
+                    <%= f.text_area :description, class: "form-control" %>
+                  </p>
+
+                  <div class="container row">
+                    <div class="col-md-4">
+                      <p>
+                        <%= f.label :select_developer %>
+                        <%= f.select :developer_id, User.developer.collect {|key| [ key.name, key.id ] } %>
+                      </p>
+                    </div>
+                    <div class="col-md-4">
+                      <p>
+                        <%= f.label :select_quaity_assurance_developer %>
+                        <%= f.select :qa_id, User.qa.collect {|key| [ key.name, key.id ] } %>
+                      </p>
+                     </div>
+                  </div>
+                  
+                  <div class="actions d-grid gap-2 col-6 mx-auto text-center">
+                    <p>
+                      <%= f.submit data: {turbo: false}, class: "btn btn-primary" %>
+                    </p>
+                  </div>  
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+</body>
+</html>
+
+
+
+

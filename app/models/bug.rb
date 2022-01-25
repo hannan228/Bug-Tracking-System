@@ -1,5 +1,9 @@
 class Bug < ApplicationRecord
-  validates :title, presence: true, length: { minimum: 6 }
+  belongs_to :user
+  belongs_to :project
+
+
+  validates :title, presence: true, uniqueness: {scope: :project_id}, length: { minimum: 6 }
 
   enum bug_type: [:bug, :feature]
   enum bug_status: [:new_bug, :started_bug, :resolved]

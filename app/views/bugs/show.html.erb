@@ -1,3 +1,70 @@
-<div class="text-center">
-  <%= image_tag @bug.image if @bug.image.attached? %>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    table {
+        border-collapse: collapse;
+    }
+   
+  </style>
+  <title></title>
+</head>
+<body>
+  <div class="container my-4">
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h2 class="text-center">welcome to bug section</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th> Status</th>
+                  <th>deadline</th>
+                  <th>Screenshot</th>
+                </tr>
+              </thead>    
+              <tbody>
+                <tr>
+                  <td><%= @bug.title %></td>
+                  <td><%= @bug.description %></td>
+                  <td><%= @bug.bug_type %></td>
+                  <td><%= @bug.bug_type=='bug' ? @bug.bug_status : @bug.feature_status %></td>
+                  <td><%= @bug.deadline %></td>
+                  <td><div class="text-center">
+                  <%= image_tag @bug.image, style: 'height:150px; width:100%;' if @bug.image.attached? %>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row mb-3 my-4 justify-content-center">
+                <div class="d-grid gap-2 d-md-block col-md-12 justify-content-center">
+                  <div class=" row  text-center justify-content-center">
+                    <div class="col-md-1">
+                      <% if can? :update, @bug %>
+                        <%= link_to 'Edit', edit_bug_path(@bug), class: "custom-link btn btn-primary" %>
+                      <% end %>
+                    </div>
+                    <div class="col-md-1">
+                      <% if can? :destroy, @bug %>
+                        <%= button_to 'Delete', bug_path(@bug), method: :delete, class: "btn btn-danger"%>
+                      <% end %>
+                    </div>
+                 </div>
+               </div>
+             </div>
+          <div>
+            <% if can? :create, @bug %>
+              <%= link_to 'Create new bug', new_bug_path, class: "custom-link btn btn-primary" %>
+            <% end %>
+           </div> 
+      </div>
+    </div>
+  </body>
+</html>

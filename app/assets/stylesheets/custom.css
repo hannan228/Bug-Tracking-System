@@ -1,0 +1,18 @@
+.custom-link{
+    color: white;
+    text-decoration: none
+}
+
+.custom-link:hover {
+    color: white;
+  }
+
+#panel1 {
+    display: none;
+}
+
+
+.custom_link
+{
+    display:inline-block;
+}
