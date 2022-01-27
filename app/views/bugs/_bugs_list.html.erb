@@ -1,19 +1,23 @@
 <div class="row mb-2">
     <h1 class="text-center">list of bugs</h1>
-    <% @bug.each do |bug| %>
-        <div class="col-md-6">
-          <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-              <strong class="d-inline-block mb-2 text-success"><%= bug.bug_type %>(<%= bug.bug_type=='bug' ? bug.bug_status : bug.feature_status %>)</strong>
-              <h3 class="mb-0"><%= bug.title[0,30] %></h3>
-              <p class="card-text mb-auto"><%= bug.description[0,30] %>...</p>
-              <div class="mb-1 text-muted"><%= bug.created_at %></div>
-              <%= link_to 'Continue reading', bug_path(bug) %>
-            </div>
-            <div class="col-auto d-none d-lg-block">
-              <%= image_tag bug.image, style: 'height:200px; width:250px;' if bug.image.attached? %>
+    <% if current_user %>
+      <% @bug.each do |bug| %>
+          <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-success"><%= bug.bug_type %>(<%= bug.bug_type=='bug' ? bug.bug_status : bug.feature_status %>)</strong>
+                <h3 class="mb-0"><%= bug.title[0,30] %></h3>
+                <p class="card-text mb-auto"><%= bug.description[0,30] %>...</p>
+                <div class="mb-1 text-muted"><%= bug.created_at %></div>
+                <%= link_to 'Continue reading', bug_path(bug) %>
+              </div>
+              <div class="col-auto d-none d-lg-block">
+                <%= image_tag bug.image, style: 'height:200px; width:250px;' if bug.image.attached? %>
+              </div>
             </div>
           </div>
-        </div>
-     <% end %>
+      <% end %>
+    <% else %>
+      <h4 class="text-center">no record found</h4>
+    <% end %>
   </div>

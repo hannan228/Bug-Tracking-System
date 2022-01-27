@@ -13,7 +13,7 @@
 					<% if current_user%>
 						<% if current_user.manager? %>
 						<div class="d-grid gap-2 d-md-block">
-						<button class="btn btn-primary" type="button"><%= link_to "Create Project", "/projects", class: "custom-link" %></button>
+						<button class="btn btn-primary" type="button"><%= link_to "Create Project", "/projects/new", class: "custom-link" %></button>
 						</div>
 						<% elsif current_user.qa? %>
 						<div class="d-grid gap-2 d-md-block">
@@ -38,6 +38,7 @@
 	<% if current_user %>
 	  <% if current_user.manager? %>
 		<%= render 'projects/projectlist' %>  
+		<%= render 'bugs/bugs_list' %>
 	  <% elsif current_user.developer? || current_user.qa? %>
         <%= render 'bugs/bugs_list' %>
 	  <% end %>

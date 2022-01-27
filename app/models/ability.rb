@@ -4,26 +4,25 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new(user_type: 'user')
+   
+    if user
+      if user.user_type == 'qa'
+        can :create, Bug 
+        can [:update, :destroy, :read], Bug do |bug|
+          bug.user == user
+        end
+      elsif user.user_type == 'manager'
+        can :create, Project 
+        can [:update, :destroy, :read], Project do |project|
+          project.user == user
+        end
+      elsif user.user_type == 'developer'
+        can :update, Bug
+        can :read, :all
+      end
     
-    if user.user_type == 'qa'
-      can :create, Bug 
-      can [:update, :destroy], Bug do |bug|
-        bug.user == user
-      end
-    elsif user.user_type == 'manager'
-      can :create, Project 
-      can [:update, :destroy], Project do |project1|
-        project1.user == user
-      end
-    elsif user.user_type == 'developer'
-      can :update, Bug
-      can :read, :all
-
-    else
-      can :read, :all
     end
-  
+    
 
 
   # def initialize(user)

@@ -9,10 +9,22 @@ class BugsController < ApplicationController
 
     def show
         @bug = Bug.find(params[:id])
+        @project_title = Project.find_by(id: @bug.project_id)
+        authorize! :read, @bug
     end
 
     def index
-        @bug = Bug.all
+        if current_user
+            if current_user.manager?
+                project = Project.where(user_id: current_user)
+                @bug = Bug.where(project_id: project)
+            elsif current_user.qa?
+                @bug = Bug.where(user_id: current_user)
+            elsif current_user.developer?
+                project = Project.where(developer_id: current_user)
+                @bug = Bug.where(project_id: project)
+            end
+          end
     end
 
     def new

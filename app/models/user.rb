@@ -7,7 +7,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum user_type: [:developer, :manager, :qa, :user]
+  enum user_type: [:developer, :manager, :qa]
 
   after_initialize :set_default_user_type, :if => :new_record?
   def set_default_user_type

@@ -24,6 +24,7 @@
                 <tr>
                   <th>Title</th>
                   <th>Description</th>
+                  <th>Project Title</th>
                   <th>Type</th>
                   <th> Status</th>
                   <th>deadline</th>
@@ -34,6 +35,7 @@
                 <tr>
                   <td><%= @bug.title %></td>
                   <td><%= @bug.description %></td>
+                  <td><%= @project_title.title %></td>
                   <td><%= @bug.bug_type %></td>
                   <td><%= @bug.bug_type=='bug' ? @bug.bug_status : @bug.feature_status %></td>
                   <td><%= @bug.deadline %></td>

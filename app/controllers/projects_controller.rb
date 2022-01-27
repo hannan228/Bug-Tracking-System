@@ -7,10 +7,19 @@ class ProjectsController < ApplicationController
 
     def show
         @project = Project.find(params[:id])
+        authorize! :read, @project
     end
 
     def index
-        @project = Project.all
+      if current_user
+        if current_user.manager?
+            @project = Project.where(user_id: current_user)
+        elsif current_user.qa?
+            @project = Project.where(qa_id: current_user)
+        elsif current_user.developer?
+            @project = Project.where(developer_id: current_user)
+        end
+      end
     end
 
     def new

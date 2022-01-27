@@ -42,7 +42,7 @@
                   <div class="col-md-6">
                     <p>
                       <%= f.label :project_id, class: "form-label" %>
-                      <%= f.select :project_id, Project.all.collect {|key| [ key.title, key.id ]}, class: "form-control" %>
+                      <%= f.select :project_id, Project.where(qa_id: current_user).collect {|key| [ key.title, key.id ]}, class: "form-control" %>
                     </p>       
                   </div>     
                   
@@ -94,14 +94,14 @@
     var box2= document.querySelector("#panel2")
     function checkButton(){
       if(document.getElementById('feature').checked) {
-                  // document.getElementById("para").innerHTML = document.getElementById("feature").value + " radio button is checked";
-                  box1.style.display = "block"
-                  box2.style.display = "none"
-              }
+        // document.getElementById("para").innerHTML = document.getElementById("feature").value + " radio button is checked";
+        box1.style.display = "block"
+        box2.style.display = "none"
+      }
       else {
-          // document.getElementById("para").innerHTML = document.getElementById("bug").value + " radio button is checked";
-          box1.style.display = "none"
-          box2.style.display = "block"  
+        // document.getElementById("para").innerHTML = document.getElementById("bug").value + " radio button is checked";
+        box1.style.display = "none"
+        box2.style.display = "block"  
       }
     }
 </script>
